@@ -1,8 +1,12 @@
 import asyncio
-from agents import Agent, ItemHelpers, Runner, AsyncOpenAI, OpenAIChatCompletionsModel
+from agents import Agent, ItemHelpers, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,set_tracing_disabled
+import os
+from dotenv import load_dotenv
 
-# Set up your Gemini API key here 
-gemini_api_key = "AIzaSyAZeh8ytSvbQZr3dc4gjJ71SucyuYOKEIw"
+load_dotenv()
+
+# Set up your Gemini API key here
+gemini_api_key = os.getenv("GEMINI_API_KEY")
 
 # 1. Set up the provider to use the Gemini API Key
 provider = AsyncOpenAI(
@@ -22,6 +26,7 @@ agent = Agent(
     instructions="You are a joker. you write jokes",
     model=model,
 )
+set_tracing_disabled(True)
 
 # 4. Set up the runner to use the agent and generate a joke
 async def main():
