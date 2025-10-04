@@ -9,7 +9,7 @@ _: bool = load_dotenv(find_dotenv())
 # from agents import enable_verbose_stdout_logging
 # enable_verbose_stdout_logging()
 
-gemini_api_key: str = ""
+gemini_api_key: str = "AIzaSyB-sZ2CyMhJBHEoIGDUgkqeNOFkGSvZyJ8"
 
 # 1. Which LLM Service?
 external_client: AsyncOpenAI = AsyncOpenAI(
@@ -19,7 +19,7 @@ external_client: AsyncOpenAI = AsyncOpenAI(
 
 # 2. Which LLM Model?
 model: OpenAIChatCompletionsModel = OpenAIChatCompletionsModel(
-    model="gemini-2.5-flash",
+    model="gemini-2.0-flash",
     openai_client=external_client
 )
 
