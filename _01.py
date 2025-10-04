@@ -1,6 +1,11 @@
 import os
 from dotenv import load_dotenv, find_dotenv
-from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, function_tool,set_tracing_export_api_key
+from agents import (Agent,
+                    Runner, 
+                    AsyncOpenAI,
+                    OpenAIChatCompletionsModel,
+                    function_tool,
+                    set_tracing_export_api_key)
 
 _: bool = load_dotenv(find_dotenv())
 
