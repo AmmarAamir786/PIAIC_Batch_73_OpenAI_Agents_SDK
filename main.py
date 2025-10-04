@@ -5,7 +5,6 @@ from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, funct
 _: bool = load_dotenv(find_dotenv())
 
 # ONLY FOR TRACING
-os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY", "")
 set_tracing_export_api_key(os.getenv("OPENAI_API_KEY", ""))
 
 gemini_api_key: str = os.getenv("GEMINI_API_KEY", "")
