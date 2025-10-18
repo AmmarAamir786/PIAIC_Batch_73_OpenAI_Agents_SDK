@@ -1,5 +1,5 @@
 import os
-from agents import Agent, ModelSettings, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, StopAtTools, function_tool, set_tracing_export_api_key
+from agents import Agent, ModelSettings, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, function_tool, set_tracing_export_api_key
 from dotenv import load_dotenv, find_dotenv
 
 _: bool = load_dotenv(find_dotenv())
@@ -36,18 +36,39 @@ def piaic_student_finder(student_roll: int) -> str:
 
   return data.get(student_roll, "Not Found") # Azeem
 
+@function_tool("new_tool")
+def new_tool(student_roll: int) -> str:
+  """
+  find the PIAIC student based on the roll number
+  """
+  data = {1: "Ammar",
+          2: "Azeem",
+          3: "Zain"}
+
+  return data.get(student_roll, "Not Found") # Azeem
 
 base_agent = Agent(
     name="pirate_agent",
-    instructions="you are a helpful assistant",
+    instructions="Write like a pirate who loves math",
+    model_settings=ModelSettings(
+        temperature=1,
+        max_tokens=1024,
+        top_p=1,
+        ),
     model=model,
     tools=[get_weather, piaic_student_finder],
-    tool_use_behavior=StopAtTools(stop_at_tool_names=["get_weather"])
 )
+
+cloned_agent = base_agent.clone(
+    name = "robot_agent",
+    instructions = "Write like a pirate who writes using numbers",
+)
+
+cloned_agent.tools.append(new_tool)
 
 result = Runner.run_sync(
     base_agent,
-    input="who is student with roll number 2? and what is the weather in Islamabad in celsius? ",
+    input="what is 2+2?",
 )
 
 print(result.final_output)
