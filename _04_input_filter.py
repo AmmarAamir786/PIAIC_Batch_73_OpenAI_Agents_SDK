@@ -28,17 +28,19 @@ class ProblemEscalation(BaseModel):
     details: str | None = None
 
 # Input filter: only pass the latest user message to the next agent
-def only_latest_user_message(handoff_input: HandoffInputData) -> HandoffInputData:
-    # print(f"Input History: {handoff_input.input_history}")
-    # print(f"New Items: {handoff_input.new_items}")
-    # print(f"Pre Handoff Items: {handoff_input.pre_handoff_items}")
-    
-    if isinstance(handoff_input.input_history, tuple) and handoff_input.input_history:
-        latest = (handoff_input.input_history[-1],)
-        # print(f"Latest Message for Handoff: {latest}")
-    else:
-        latest = handoff_input.input_history
-    return handoff_input.clone(input_history=latest)
+def summarize_convo(handoff_input: HandoffInputData) -> HandoffInputData:
+
+    summarized_conversation = "this guy has chest pain."
+
+    # print("\n\n[ITEM 1]", handoff_input.input_history)
+    # print("\n\n[ITEM 2]", handoff_input.pre_handoff_items)
+    # print("\n\n[ITEM 1]", handoff_input.new_items)
+
+    return HandoffInputData(
+        input_history=summarized_conversation,
+        pre_handoff_items=(),
+        new_items=(),
+    )
 
 # Cardiologist agent
 cardiologist_agent = Agent(
@@ -67,7 +69,7 @@ receptionist_agent = Agent(
             agent=cardiologist_agent,
             input_type=ProblemEscalation,
             on_handoff=on_cardiologist_handoff,
-            input_filter=only_latest_user_message,
+            input_filter=summarize_convo,
         )
     ],
     model=model,
