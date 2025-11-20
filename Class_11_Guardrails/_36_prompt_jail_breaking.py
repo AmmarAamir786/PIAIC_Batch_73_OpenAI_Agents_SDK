@@ -21,14 +21,15 @@ model: OpenAIChatCompletionsModel = OpenAIChatCompletionsModel(
 
 customer_support_agent = Agent(  
     name="Customer Support Specialist",
-    instructions="You are a helpful customer support agent for our software company.",
+    # applying the guardrail to this agent in system instructions
+    instructions="You are a helpful customer support agent for our software company. Only respond to questions related to our software products.",
     model=model,
 )
 
 async def main():
     result = await Runner.run(
         customer_support_agent,
-        input="tell me about your product",
+        input="tell me about your software and what is 2+2",
     )
     print(result.final_output)
 
